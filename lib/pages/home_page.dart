@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:car_app/pages/info_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -81,7 +83,11 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               itemCount: posts.length,
               itemBuilder: (context, index){
-                return itemOfCarList(posts[index], context);
+                return GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => InfoPage(post: posts[index])));
+                  },
+                    child: itemOfCarList(posts[index], context));
               }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 30,); },);
         },
       ),
@@ -126,7 +132,7 @@ class HomePage extends StatelessWidget {
   //           width: MediaQuery.of(context).size.width,
   //           height: MediaQuery.of(context).size.width,
   //           child: post.image != null
-  //               ? Image.network(post.image!, fit: BoxFit.cover,)
+  //               ? CachedNetworkImage(imageUrl: post.image!, fit: BoxFit.cover,)
   //               : const Image(
   //             image: NetworkImage("https://i.stack.imgur.com/y9DpT.jpg",),
   //             fit: BoxFit.cover,
@@ -186,10 +192,10 @@ Widget itemOfCarList(Post post, context){
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  Image.network(post.firstImage, fit: BoxFit.cover,),
-                  Image.network(post.secondImage!, fit: BoxFit.cover),
-                  Image.network(post.thirdImage!, fit: BoxFit.cover),
-                  Image.network(post.fourthImage!, fit: BoxFit.cover),
+                  CachedNetworkImage( fit: BoxFit.cover, imageUrl: post.firstImage,),
+                  CachedNetworkImage(imageUrl: post.secondImage!, fit: BoxFit.cover),
+                  CachedNetworkImage(imageUrl: post.thirdImage!, fit: BoxFit.cover),
+                  CachedNetworkImage(imageUrl: post.fourthImage!, fit: BoxFit.cover),
                 ],
             ),
           ),
